@@ -1,0 +1,55 @@
+<mat-tab-group>
+	<mat-tab label="First">
+		<form class="example-form" style="padding-top: 50px; display: block; margin: auto; width: 50%;">
+			<mat-form-field class="example-full-width">
+				<mat-label>Title</mat-label>
+				<input [(ngModel)]="title" name="title" matInput placeholder="Ex. Pizza">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<mat-label>Leave a comment</mat-label>
+				<textarea input [(ngModel)]="content" name="content" matInput
+					placeholder="Ex. It makes me feel..."></textarea>
+			</mat-form-field>
+			<button mat-raised-button (click)="addNoteBoard()">Sent</button>
+		</form>
+	</mat-tab>
+	<mat-tab label="Second">
+		<ng-template matTabContent>
+			<button mat-raised-button (click)="deleteNoteBoard()" [disabled]="isDeleteBtnDisabled()">Delete</button>
+			<table mat-table [dataSource]="noteBoardDataArray" class="mat-elevation-z8">
+				<ng-container matColumnDef="timestamp_without_timezone">
+					<th style="padding-left:0px; width:31%;" mat-header-cell *matHeaderCellDef>
+						<mat-checkbox [disabled]="noteBoardDataArray.length===0" [checked]="allComplete"
+							[indeterminate]="someComplete()" (change)="setAll($event.checked)"></mat-checkbox>
+						Time
+					</th>
+					<td mat-cell *matCellDef="let element"> {{element.timestamp_without_timezone}} </td>
+				</ng-container>
+				<ng-container matColumnDef="title">
+					<th mat-header-cell *matHeaderCellDef> Title </th>
+					<td mat-cell *matCellDef="let element"> {{element.title}} </td>
+				</ng-container>
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			</table>
+
+
+			<mat-accordion *ngFor="let noteBoardData of noteBoardDataArray">
+				<mat-expansion-panel hideToggle [expanded]="noteBoardData.expanded"
+					(opened)="noteBoardData.expanded = true" (closed)="noteBoardData.expanded = false">
+					<mat-expansion-panel-header style="padding-left:0px;">
+						<mat-panel-title>
+							<mat-checkbox [(ngModel)]="noteBoardData.checkToDelete"
+								(change)="checkBoxClick(noteBoardData)"></mat-checkbox>
+							{{noteBoardData.timestamp_without_timezone}}
+						</mat-panel-title>
+						<mat-panel-description>
+							{{noteBoardData.title}}
+						</mat-panel-description>
+					</mat-expansion-panel-header>
+					<p>{{noteBoardData.content}}</p>
+				</mat-expansion-panel>
+			</mat-accordion>
+		</ng-template>
+	</mat-tab>
+	<mat-tab label="Third"> Content 3 </mat-tab>
+</mat-tab-group>
