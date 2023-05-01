@@ -1,0 +1,11 @@
+<form class="example-form" style="padding-top: 50px; display: block; margin: auto; width: 50%;">
+    <mat-form-field class="example-full-width">
+        <mat-label>Title</mat-label>
+        <input [(ngModel)]="title" name="title" matInput placeholder="Ex. Pizza">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>Leave a comment</mat-label>
+        <textarea input [(ngModel)]="content" name="content" matInput placeholder="Ex. It makes me feel..."></textarea>
+    </mat-form-field>
+    <button mat-raised-button (click)="addNoteBoard()">Send</button>
+</form>
