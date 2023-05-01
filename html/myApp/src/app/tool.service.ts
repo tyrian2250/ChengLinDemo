@@ -24,7 +24,7 @@ export class ToolService {
 
   doPost(path: string, bodyJSON: any, successCallback: Function, failedCallback: Function) {
     this.http.post<any>(
-      (this.URL + ":" + this.PORT + (path ? ("/" + path) : "")),
+      "/" + path,
       JSON.stringify(bodyJSON),
       {
         headers: new HttpHeaders({
