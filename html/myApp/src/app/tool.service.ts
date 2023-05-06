@@ -10,9 +10,6 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dial
 
 export class ToolService {
   @ViewChild(DialogComponent) private DialogComponent?: DialogComponent;
-  URL: string = 'http://localhost';
-  PORT: string = '8080';
-
 
   constructor(
     private http: HttpClient,
