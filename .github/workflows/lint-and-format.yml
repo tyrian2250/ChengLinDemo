@@ -27,9 +27,7 @@ jobs:
 
       # 3. 安裝專案依賴
       - name: Install dependencies
-        run: |
-          cd html/myApp
-          npm ci
+        run: npm ci
 
       # 4. 執行 ESLint
       - name: Run ESLint
