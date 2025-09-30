@@ -1,5 +1,5 @@
 import { Injectable, ViewChild } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DialogComponent } from './dialog/dialog.component';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -21,7 +21,7 @@ export class ToolService {
 
   doPost(path: string, bodyJSON: any, successCallback: Function, failedCallback: Function) {
     this.http.post<any>(
-      "/" + path,
+      '/' + path,
       JSON.stringify(bodyJSON),
       {
         headers: new HttpHeaders({
