@@ -1,0 +1,42 @@
+# 檔案位置：.github/workflows/lint-and-format.yml
+name: Lint and Format Check
+
+# 觸發條件：每次 PR 對 main 分支或 push 到 main
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 取得程式碼
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. 安裝 Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 3. 安裝專案依賴
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. 執行 ESLint
+      - name: Run ESLint
+        run: npx eslint . --max-warnings=0
+
+      # 5. 執行 Prettier 格式檢查
+      - name: Check Prettier Formatting
+        run: npx prettier --check "**/*.{js,ts,tsx,jsx,json,css,scss,md}"
+
+      # 注意：
+      # 如果 ESLint 或 Prettier 有錯誤，workflow 會失敗
+      # PR merge 時會被 branch protection 阻擋
