@@ -5,7 +5,7 @@ module.exports = [
     rules: {
       // Add your rules here
       semi: "error",
-      quotes: ["error", "double"]
+      quotes: ["error", "single"]
     }
   }
 ];
