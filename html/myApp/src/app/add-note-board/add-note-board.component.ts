@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ToolService } from '../tool.service';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { NoteBoardRequest, NoteBoardResponse } from '../models/note-board.interface';
 
 
 @Component({
@@ -19,18 +20,18 @@ export class AddNoteBoardComponent {
   content: string = '';
 
   addNoteBoard() {
-    this.tool.doPost('addNoteBoard',
+    this.tool.doPost<NoteBoardRequest, NoteBoardResponse>('addNoteBoard',
       {
         title: this.title,
         content: this.content
       },
-      (successResult: any) => {
+      (successResult: NoteBoardResponse) => {
         this.title = '';
         this.content = '';
         this.tool.openDialog();
         console.log(successResult);
       },
-      (failedResult: any) => {
+      (failedResult: Error) => {
         console.log(failedResult);
       }
     );

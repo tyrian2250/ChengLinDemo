@@ -1,7 +1,7 @@
 import { Injectable, ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DialogComponent } from './dialog/dialog.component';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Injectable({
@@ -19,10 +19,10 @@ export class ToolService {
 
 
 
-  doPost(path: string, bodyJSON: any, successCallback: Function, failedCallback: Function) {
-    this.http.post<any>(
-      '/' + path,
-      JSON.stringify(bodyJSON),
+  doPost<T, R>(path: string, bodyJSON: T, successCallback: (result: R) => void, failedCallback: (error: Error) => void) {
+    this.http.post<R>(
+        '/' + path,
+        JSON.stringify(bodyJSON),
       {
         headers: new HttpHeaders({
           'Content-Type': 'text/plain'
@@ -30,10 +30,14 @@ export class ToolService {
       }).subscribe(
         {
           next: (successResult) => {
-            successCallback && successCallback(successResult);
+            if (successCallback) {
+              successCallback(successResult);
+            }
           },
           error: (failedResult) => {
-            failedCallback && failedCallback(failedResult);
+            if (failedCallback) {
+              failedCallback(failedResult);
+            }
           }
         }
       );
@@ -46,7 +50,7 @@ export class ToolService {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       console.log('The dialog was closed');
     });
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToolService } from '../tool.service';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { NoteBoard, NoteBoardRequest, NoteBoardResponse } from '../models/note-board.interface';
 
 @Component({
   selector: 'note-board-list',
@@ -17,7 +18,7 @@ export class NoteBoardListComponent implements OnInit {
   title: string = '';
   content: string = '';
   pollingFrequency: number = 300000;
-  noteBoardDataArray: Array<any> = [];
+  noteBoardDataArray: NoteBoard[] = [];
   allComplete: boolean = false;
   displayedColumns: string[] = ['timestamp_without_timezone', 'title'];
 
@@ -26,23 +27,27 @@ export class NoteBoardListComponent implements OnInit {
     }, this.pollingFrequency);
   }
 
-  updateData(callback?: Function) {
+  updateData(callback?: () => void) {
     this.tool.doPost('getNoteBoard',
       {
         title: this.title,
         content: this.content
       },
-      (successResult: any) => {
-        successResult.Data.forEach((newData: any) => {
-          newData.expanded = this.noteBoardDataArray.filter(currentData => currentData.id === newData.id)[0]?.expanded;
-          newData.checkToDelete = this.noteBoardDataArray.filter(currentData => currentData.id === newData.id)[0]?.checkToDelete;
+      (successResult: NoteBoardResponse) => {
+        successResult.Data.forEach((newData: NoteBoard) => {
+          newData.expanded = this.noteBoardDataArray.find(currentData => currentData.id === newData.id)?.expanded;
+          newData.checkToDelete = this.noteBoardDataArray.find(currentData => currentData.id === newData.id)?.checkToDelete;
         });
         this.noteBoardDataArray = successResult.Data;
 
-        callback && callback() || this.pollingData();
+        if (callback) {
+          callback();
+        } else {
+          this.pollingData();
+        }
         console.log(successResult);
       },
-      (failedResult: any) => {
+      (failedResult: Error) => {
         this.pollingData();
         console.log(failedResult);
       }
@@ -55,23 +60,23 @@ export class NoteBoardListComponent implements OnInit {
   }
 
   deleteNoteBoard() {
-    this.tool.doPost('deleteNoteBoard',
+    this.tool.doPost<NoteBoardRequest, NoteBoardResponse>('deleteNoteBoard',
       {
         idArray: this.noteBoardDataArray.map(noteBoardData => noteBoardData.checkToDelete && noteBoardData.id).filter(id => !!id)
       },
-      (successResult: any) => {
+      (successResult: NoteBoardResponse) => {
         this.updateData(() => {
           this.tool.openDialog();
         });
         console.log(successResult);
       },
-      (failedResult: any) => {
+      (failedResult: Error) => {
         console.log(failedResult);
       }
     );
   }
 
-  checkBoxClick(noteBoardData: any) {
+  checkBoxClick(noteBoardData: NoteBoard) {
     noteBoardData.expanded = !noteBoardData.expanded;
     this.allComplete = this.noteBoardDataArray.every(noteBoardData => noteBoardData.checkToDelete);
   }
