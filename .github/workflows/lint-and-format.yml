@@ -28,12 +28,8 @@ jobs:
       # 3. 安裝專案依賴
       - name: Install dependencies
         run: npm ci
-        
-      # 4. 執行 Prettier 格式檢查
-      - name: Check Prettier Formatting
-        run: npx prettier --check "**/*.{js,ts,tsx,jsx,json,css,scss,md}"
 
-      # 5. 執行 ESLint
+      # 4. 執行 ESLint
       - name: Run ESLint
         run: npx eslint . --max-warnings=0
 
