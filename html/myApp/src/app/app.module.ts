@@ -12,22 +12,22 @@ import { NoteBoardListComponent } from './note-board-list/note-board-list.compon
 import { AddNoteBoardComponent } from './add-note-board/add-note-board.component';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		DialogComponent,
-		NoteBoardListComponent,
-  AddNoteBoardComponent
-	],
-	imports: [
-		BrowserAnimationsModule,
-		BrowserModule,
-		FormsModule,
-		HttpClientModule,
-		MatNativeDateModule,
-		MaterialExampleModule,
-		ReactiveFormsModule,
-	],
-	providers: [],
-	bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    DialogComponent,
+    NoteBoardListComponent,
+    AddNoteBoardComponent,
+  ],
+  imports: [
+    BrowserAnimationsModule,
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    MatNativeDateModule,
+    MaterialExampleModule,
+    ReactiveFormsModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
