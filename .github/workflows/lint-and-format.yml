@@ -28,14 +28,14 @@ jobs:
       # 3. 安裝專案依賴
       - name: Install dependencies
         run: npm ci
-
-      # 4. 執行 ESLint
-      - name: Run ESLint
-        run: npx eslint . --max-warnings=0
-
-      # 5. 執行 Prettier 格式檢查
+        
+      # 4. 執行 Prettier 格式檢查
       - name: Check Prettier Formatting
-        run: npx prettier --check "**/*.{js,ts,tsx,jsx,json,css,scss,md}"
+        run: npx prettier --check "**/*.{js,ts,tsx,jsx,json,css,scss,md}" --write
+
+      # 5. 執行 ESLint
+      - name: Run ESLint
+        run: npx eslint . --max-warnings=0 --fix
 
       # 注意：
       # 如果 ESLint 或 Prettier 有錯誤，workflow 會失敗
